@@ -28,26 +28,53 @@ Function.prototype.myBind = function() {
   };
 };
 
-function Cat(name) {
-  this.name = name;
+function curriedSum (numArgs) {
+  var numbers = [];
+
+  return function _curriedSum (num) {
+    numbers.push(num);
+
+    if (numbers.length === numArgs){
+      var total = 0;
+      for (var i = 0; i < numbers.length; i++) {
+        total += numbers[i];
+      }
+      return total;
+    } else {
+      // console.log("typeof this.constructor is: " + typeof this.constructor);
+
+      return _curriedSum;
+    }
+  };
+
 }
 
-Cat.prototype.says = function (sound) {
-  console.log(this.name + " says " + sound + "!");
+Function.prototype.curry = function (numArgs) {
+  var numbers = [];
+  var orig = this;
+
+  return function _curriedSum (num) {
+    numbers.push(num);
+
+    if (numbers.length === numArgs) {
+      console.log(numbers);
+      return orig.apply(null, numbers);
+    }
+    else {
+      return _curriedSum;
+    }
+  };
 };
 
-var markov = new Cat("Markov");
-var breakfast = new Cat("Breakfast");
+function sumThree(num1, num2, num3) {
+  return num1 + num2 + num3;
+}
 
-markov.says("meow");
-// Markov says meow!
+// you'll write `Function#curry`!
+var f1 = sumThree.curry(3);
+var f2 = f1(4);
+var f3 = f2(20);
+var result = f3(6); // = 30
 
-markov.says.myBind(breakfast, "meow")();
-// Breakfast says meow!
-
-markov.says.myBind(breakfast)("meow");
-// Breakfast says meow!
-
-var notMarkovSays = markov.says.myBind(breakfast);
-notMarkovSays("meow");
-// Breakfast says meow!
+// or more briefly:
+console.log(sumThree.curry(3)(4)(20)(6)); // == 30
