@@ -11,16 +11,20 @@
   //   this.RADIUS = 5
   // };
 
+  var COLOR = "#55FF00";
+  // var
+
   var Asteroid = Asteroids.Asteroid = function (pos, vel) {
     this.pos = pos;
     this.vel = vel;
-    this.RADIUS = 5;
-    this.COLOR = "#55FF00";
+    this.radius = 5;
+    this.color = COLOR;
   };
 
 
-  //  { pos: [30, 30], vel: [10, 10], radius: 5, color: "#00FF00"}
-Asteroids.Util.inherits(Asteroid, MovingObject);
+
+
+  Asteroids.Util.inherits(Asteroid, Asteroids.MovingObject);
 
 
 
